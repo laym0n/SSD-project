@@ -1,8 +1,6 @@
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: laym0n/secdev-app:latest
     container_name: secdev-seed-web
     ports:
       - "8000:8000"
