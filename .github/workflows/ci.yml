@@ -26,7 +26,27 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: Install deps
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
+          pip install pre-commit
+
+      - name: Prepare masked secrets
+        shell: bash
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+        run: |
+          source="placeholder"
+          if [ -n "${SECRET_KEY}" ]; then
+            source="github-secret"
+          else
+            SECRET_KEY="ci-placeholder-secret"
+          fi
+          echo "::add-mask::$SECRET_KEY"
+          echo "SECRET_KEY=$SECRET_KEY" >> "$GITHUB_ENV"
+          echo "SECRET_KEY_SOURCE=$source" >> "$GITHUB_ENV"
+
+      - name: Pre-commit checks
+        run: pre-commit run --all-files
 
       - name: Init DB
         run: python scripts/init_db.py
