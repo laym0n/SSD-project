@@ -41,15 +41,11 @@ pytest -q
 ## Лицензия
 MIT (только в учебных целях; уязвимости добавлены намеренно).
 
-
 ---
 
 ## S07 — Containerization (болванка)
 Быстрый старт:
 ```bash
-docker build -t secdev-seed:latest .
-docker run --rm -p 8000:8000 secdev-seed:latest
-# или
 docker compose up --build
 ```
 TODO на S07:
