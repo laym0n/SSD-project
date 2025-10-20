@@ -1,5 +1,5 @@
 
-.PHONY: venv deps init run test ci ci-s06
+.PHONY: venv deps init run test ci ci-s06 compose decompose
 
 PY?=python3
 
@@ -25,3 +25,10 @@ ci:
 ci-s06:
 	mkdir -p EVIDENCE/S06/logs
 	pytest --junitxml=EVIDENCE/S06/test-report.xml --log-file=EVIDENCE/S06/logs/pytest.log --log-file-level=INFO -q
+
+
+compose:
+ docker compose up -d
+
+decompose:
+ docker compose down
