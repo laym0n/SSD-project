@@ -11,28 +11,25 @@
 - Jinja2 (шаблоны)
 - pytest (+ httpx) для автотестов
 
-## Быстрый старт (локально)
-> ⚠️ Тут приведён примерный порядок; **ваш one-liner** под DV вы сформулируете сами на S06.
+## Локальный запуск One-liner:
 
-```bash
-python -m venv .venv
-. .venv/bin/activate  # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
-python scripts/init_db.py
-uvicorn app.main:app --reload
-```
+1. `make venv` + `make deps` + `make init` - создать окружение
+2. `make run` - запустить приложение
+3. `make ci-s06` - запустить тесты, результат создастся в `EVIDENCE/S06`, файл `test-report.xml`
 
-Откройте: http://127.0.0.1:8000/  и попробуйте:
-
-- `/echo?msg=<script>alert(1)</script>` — XSS (намеренно небезопасно)
-- `POST /login` с JSON `{"username": "admin'-- ", "password": "x"}` — обход логина за счёт SQLi
-- `/search?q=' OR '1'='1` — выдаёт все записи (SQLi)
+Главная страница: http://127.0.0.1:8000/
 
 ## Тесты
 ```bash
 pytest -q
 ```
-Из коробки тесты **падают**, пока вы не примените патчи безопасности.
+Тесты покрывают SQLi, XSS, rate-limit, заголовки безопасности и работу env-конфига.
+
+## Конфиги / переменные окружения
+- `APP_NAME` — заголовок приложения (по умолчанию `secdev-seed-s06-s08`).
+- `DEBUG` — включает режим отладки (`true` / `false`).
+- `SECRET_KEY` — используется для генерации токена; держите значение только в окружении.
+- Скопируйте `.env.example` в личный `.env` (не коммитим) и заполните значения при необходимости.
 
 ## Что править на S06 (минимум)
 - Параметризация SQL (sqlite параметризованные запросы)
