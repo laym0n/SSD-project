@@ -34,5 +34,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/secdev-app:${{ github.sha }}
+          tags: |
+            ${{ secrets.DOCKER_USERNAME }}/secdev-app:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/secdev-app:latest
           labels: ${{ steps.meta.outputs.labels }}
